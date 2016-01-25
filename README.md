@@ -1,2 +1,3 @@
 # teamE
-The greatest timetable
+The greatest timetable.
+This is the fucking greatest timetable the world has ever seen
