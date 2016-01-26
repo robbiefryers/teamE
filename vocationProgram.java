@@ -22,8 +22,6 @@ public class vocationProgram {
 	public vocationProgram(int num) {
 		modules = new Module[num];
 		setRoomInfo();
-		setTimeIndex();
-
 	}
 
 
@@ -67,33 +65,6 @@ public class vocationProgram {
 
 	}
 	
-	//Hard code time slot Information into instance variable
-	private void setTimeIndex() {
-
-		timeIndex = new Object[10][2];
-
-		timeIndex[0][0] = "MonAM";
-		timeIndex[0][1] = 0;
-		timeIndex[1][0] = "MonPM";
-		timeIndex[1][1] = 1;
-		timeIndex[2][0] = "TueAm";
-		timeIndex[2][1] = 2;
-		timeIndex[3][0] = "TuePM";
-		timeIndex[3][1] = 3;
-		timeIndex[4][0] = "WedAM";
-		timeIndex[4][1] = 4;
-		timeIndex[5][0] = "WedPM";
-		timeIndex[5][1] = 5;
-		timeIndex[6][0] = "ThuAM";
-		timeIndex[6][1] = 6;
-		timeIndex[7][0] = "ThuPM";
-		timeIndex[7][1] = 7;
-		timeIndex[8][0] = "FriAM";
-		timeIndex[8][1] = 6;
-		timeIndex[9][0] = "FriPM";
-		timeIndex[9][1] = 7;
-
-	}
 
 	public Module getModuleByID(String s) {
 		for (int i = 0; i < arrayIndex; i++){
@@ -102,28 +73,16 @@ public class vocationProgram {
 		}
 		return null;
 	}
+	
+	
 	public Object getRooms()[][] {
 
 		return rooms;
 	}
 	
-	public int getTimeIndex(String s) {
-		int tI=0;
-		for(int i = 0; i< timeIndex.length; i++){
-			if(s.equals(timeIndex[i][0]))
-				return tI;
-			tI++;
-		}
-			return -1;
-	}
 	
-	public String getTimeString(int index) {
-		for(int i = 0; i< timeIndex.length; i++){
-			if(index==((Integer)timeIndex[i][1]))
-				return (String)timeIndex[i][0];
-	
-		}
-			return null;
+	public int getRoomSize(int i) {
+		return (Integer)rooms[i][1];
 	}
 	
 	public int getRoomIndex(int index) {
@@ -139,15 +98,5 @@ public class vocationProgram {
 	public Object getRoomInfo (int i, int j) {
 
 		return rooms[i][j];
-	}
-	
-	public int getRoomSize(int i) {
-		return (Integer)rooms[i][1];
-	}
-
-	public String timeTableHeader() {
-		String s = "<html><center>"+rooms[headerIndex][0]+"<br>"+rooms[headerIndex][1]+"</center></html>";
-		headerIndex++;
-		return s;
 	}
 }

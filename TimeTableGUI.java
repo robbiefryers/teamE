@@ -132,9 +132,9 @@ public class TimeTableGUI extends JFrame implements ActionListener {
 						System.err.println("move module " + moduleToChangeOne.getCode() +" to " + row + column);
 
 						if(validateChange(moduleToChangeOne,row,column)){
-							target.setValueAt("", mit.getTimeIndex(moduleToChangeOne.getTime()), moduleToChangeOne.getRoomIndex());
-							moduleToChangeOne.setRoomIndex(column);
-							moduleToChangeOne.setTime(mit.getTimeString(row));
+							target.setValueAt("", moduleToChangeOne.getTimeIndex(), moduleToChangeOne.getRoomIndex());
+							moduleToChangeOne.setRoomInfo(column);
+							moduleToChangeOne.setTimeInfo(row);
 							refreshTimeTable();
 						}
 						moduleToChangeOne=null;
@@ -155,11 +155,17 @@ public class TimeTableGUI extends JFrame implements ActionListener {
 					//This will be true if the last click was on a slot with a module inside it
 					//We want to try to make a swap with the last module clicked and the one currently clicked in the module list
 					if(moduleToChangeOne!=null){
-						System.err.println("move " + mit.getModuleByID((String)target.getValueAt(target.getSelectedRow(), 0)).getCode() + "into " + lastRow + lastCol);
+						Module moduleFromList = mit.getModuleByID((String)target.getValueAt(target.getSelectedRow(), 0));
+						System.err.println("move " + moduleFromList.getCode() + "into " + lastRow + lastCol);
 						//need the room index and time index
-						validateChange(mit.getModuleByID((String)target.getValueAt(target.getSelectedRow(), 0)), lastRow, lastCol);
-						//then validate
+						if(validateChange(moduleFromList, lastRow, lastCol)){
+						moduleToChangeOne.setRoomInfo(-1);
+						moduleToChangeOne.setTimeInfo(-1);
+						moduleFromList.setTimeInfo(lastRow);
+						moduleFromList.setRoomInfo(lastCol);
 						moduleToChangeOne=null;
+						refreshTimeTable();
+						}
 					}
 
 					//If the last click was on the main table but on an empty slot then attempt to switch the module just clicked
@@ -207,7 +213,7 @@ public class TimeTableGUI extends JFrame implements ActionListener {
 		//Next check if there are any other modules on from the same year during that time
 		for(int i = 0; i < mit.getClassNo(); i++) {
 			if(m.getYear()==mit.getModule(i).getYear())
-				if(tI==mit.getTimeIndex(mit.getModule(i).getTime()))
+				if(tI==mit.getModule(i).getTimeIndex())
 					if(mit.getModule(i).getCode().equals(m.getCode()))
 						clash=false;
 					else{
@@ -310,8 +316,8 @@ public class TimeTableGUI extends JFrame implements ActionListener {
 	//and which room they are in
 	private void refreshTimeTable() {
 		for(int i = 0; i < numModules; i++){
-			if(mit.getTimeIndex(mit.getModule(i).getTime())!=-1){
-				currentTable.setValueAt(mit.getModule(i).getCode(), mit.getTimeIndex(mit.getModule(i).getTime()), mit.getModule(i).getRoomIndex());
+			if(mit.getModule(i).getTimeIndex()!=-1){
+				currentTable.setValueAt(mit.getModule(i).getCode(), mit.getModule(i).getTimeIndex(), mit.getModule(i).getRoomIndex());
 			}
 		}
 	}
