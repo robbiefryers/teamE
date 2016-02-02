@@ -88,6 +88,7 @@ public class TimeTableGUI extends JFrame implements ActionListener {
 			//Check to see which table was clicked
 			if(target==currentTable){
 
+	
 				//get the row and column numbers of the cell that was clicked
 				int row = target.getSelectedRow();
 				int column = target.getSelectedColumn();
@@ -132,9 +133,10 @@ public class TimeTableGUI extends JFrame implements ActionListener {
 						System.err.println("move module " + moduleToChangeOne.getCode() +" to " + row + column);
 
 						if(validateChange(moduleToChangeOne,row,column)){
-							target.setValueAt("", moduleToChangeOne.getTimeIndex(), moduleToChangeOne.getRoomIndex());
+							target.setValueAt(null, moduleToChangeOne.getTimeIndex(), moduleToChangeOne.getRoomIndex());
 							moduleToChangeOne.setRoomInfo(column);
 							moduleToChangeOne.setTimeInfo(row);
+							refreshModuleList();
 							refreshTimeTable();
 						}
 						moduleToChangeOne=null;
